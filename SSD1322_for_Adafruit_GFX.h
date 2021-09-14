@@ -80,6 +80,8 @@ public:
   void display();
   void invertDisplay(bool i);
   void oled_data(uint8_t c);
+  void setContrast(uint8_t level);
+  void drawFullsizeGrayscaleBitmap(const uint8_t bitmap[]);
 
 private:
   int8_t page_offset = 0;

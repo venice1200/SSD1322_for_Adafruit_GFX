@@ -350,3 +350,27 @@ void Adafruit_SSD1322::oled_data(uint8_t c) {
   }
 }
 
+/*!
+    @brief  Adjust the display contrast.
+    @param  level The contrast level from 0 to 0xFF
+    @note   This has an immediate effect on the display, no need to call the
+            display() function -- buffer contents are not changed.
+*/
+void Adafruit_SSD1322::setContrast(uint8_t level) {
+  oled_command(SSD1322_SETCONTRAST);
+  oled_data(level);
+}
+
+/*!
+    @brief  Copy all Bitmap Bytes 1:1 to the internal buffer
+    @param  bitmap 
+    @note   This has not an immediate effect on the display, 
+            call the display() function
+*/
+void Adafruit_SSD1322::drawFullsizeGrayscaleBitmap(const uint8_t bitmap[]) {
+  //uint8_t *ptr = buffer;
+  for (int i=0; i<8192; i++) {
+    uint8_t *ptr = &buffer[i];
+    *ptr=(uint8_t)pgm_read_byte(&bitmap[i]);
+  }
+}
