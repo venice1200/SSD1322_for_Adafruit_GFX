@@ -8,7 +8,10 @@ Other OLED Resolutions and Interfaces (I2C,3SPI,6800,80xx) are currently (2021-0
   
 You will find the orginal Library here https://github.com/adafruit/Adafruit_SSD1327  
   
-Beside the Hardware specific modifications I implemented an function to draw a 4-Bit Grayscale Picture into the Display "Buffer".  
+Beside the Hardware specific modifications I implemented the function  
+`drawFullsizeGrayscaleBitmap(const uint8_t bitmap[])`  
+to draw a 4-Bit Grayscale Picture into the Display "Buffer".  
+  
 You can actually draw only a Fullsize Picture (256x64 Pixels, 8192 bytes).  
 Tested with the **SPI** Interface and an **ESP32** (TTGO T8 v1.7.1).  
   
