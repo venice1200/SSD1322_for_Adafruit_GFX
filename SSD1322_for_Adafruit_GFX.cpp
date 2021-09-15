@@ -362,14 +362,14 @@ void Adafruit_SSD1322::setContrast(uint8_t level) {
 }
 
 /*!
-    @brief  Copy all Bitmap Bytes 1:1 to the internal buffer
-    @param  bitmap 
-    @note   This has not an immediate effect on the display, 
+    @brief  Write Grayscale Bitmap Bytes 1:1 to the internal "buffer"
+    @param  bitmap - The PROGMEM defined bitmap array
+    @note   This has not an immediate effect on the display, you need to
             call the display() function
 */
 void Adafruit_SSD1322::drawFullsizeGrayscaleBitmap(const uint8_t bitmap[]) {
-  //uint8_t *ptr = buffer;
-  for (int i=0; i<8192; i++) {
+  int16_t numOfBytes = WIDTH * HEIGHT / 2;
+  for (int i=0; i<numOfBytes; i++) {
     uint8_t *ptr = &buffer[i];
     *ptr=(uint8_t)pgm_read_byte(&bitmap[i]);
   }

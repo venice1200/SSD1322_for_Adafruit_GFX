@@ -719,17 +719,24 @@ void setup()   {
   //while (! Serial) delay(100);
   Serial.println("SSD1322 OLED test");
   
-  if ( ! display.begin(0x3D) ) {
+//  if ( ! display.begin(0x3D) ) {
+  if ( ! display.begin() ) {
      Serial.println("Unable to initialize OLED");
      while (1) yield();
   }
 
   display.clearDisplay();
   display.drawBitmap(82, 0, tty2oled_logo, tty2oled_logo_width, tty2oled_logo_height, SSD1322_WHITE);
-  display.display();
-  delay(1000);
+
+  uint8_t color = 0;
+  for (int i=0; i<display.width(); i+=16) {
+    display.fillRect(i,55,16,8,color);
+    color++;
+    display.display();
+    delay(100);
+  }
   display.setContrast(200);
-  delay(2000);
+  delay(500);
   display.clearDisplay();
   display.drawXBitmap(0, 0, gng_bw, picw, pich, SSD1322_WHITE);
   display.display();
