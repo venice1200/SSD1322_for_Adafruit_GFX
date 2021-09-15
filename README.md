@@ -10,9 +10,11 @@ You will find the orginal Library here https://github.com/adafruit/Adafruit_SSD1
   
 Beside the Hardware specific modifications I implemented the function  
 `drawFullsizeGrayscaleBitmap(const uint8_t bitmap[])`  
-to draw a 4-Bit Grayscale Picture into the Display "Buffer".  
+to draw a 4-Bit Fullsize Grayscale Picture (256x64 Pixels, 8192 bytes) into the Display "Buffer".  
+You need to run `display` after this command.  
   
-You can actually draw only a Fullsize Picture (256x64 Pixels, 8192 bytes).  
 Tested with the **SPI** Interface and an **ESP32** (TTGO T8 v1.7.1).  
+  
+The Library Command(s) `drawGrayscaleBitmap` are not usable for an SSD1322 OLED as they are for 8-Bit Displays.  
   
 ❗ Work in Progress ❗  
