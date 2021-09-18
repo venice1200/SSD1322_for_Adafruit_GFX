@@ -362,15 +362,73 @@ void Adafruit_SSD1322::setContrast(uint8_t level) {
 }
 
 /*!
-    @brief  Write Grayscale Bitmap Bytes 1:1 to the internal "buffer"
+    @brief  "Draw" a PROGMEM-resident Grayscale Bitmap Bytes 1:1 to the internal "buffer"
     @param  bitmap - The PROGMEM defined bitmap array
     @note   This has not an immediate effect on the display, you need to
             call the display() function
 */
-void Adafruit_SSD1322::drawFullsizeGrayscaleBitmap(const uint8_t bitmap[]) {
+void Adafruit_SSD1322::draw4bppBitmap(const uint8_t bitmap[]) {
   int16_t numOfBytes = WIDTH * HEIGHT / 2;
-  for (int i=0; i<numOfBytes; i++) {
-    uint8_t *ptr = &buffer[i];
-    *ptr=(uint8_t)pgm_read_byte(&bitmap[i]);
-  }
+  uint8_t value;
+  uint8_t *ptr;
+  switch (rotation) {
+    case 0:
+      for (int i=0; i<numOfBytes; i++) {
+        ptr = &buffer[i];
+        value=(uint8_t)pgm_read_byte(&bitmap[i]);
+        *ptr=value;
+      }
+      break;
+    case 1:
+      // Currently not supported
+      break;
+    case 2:
+      for (int i=0; i<numOfBytes; i++) {
+        ptr = &buffer[i];
+        value=(uint8_t)pgm_read_byte(&bitmap[numOfBytes-i-1]);
+        value=(0xF0 & value) >> 4 | (0x0F & value) << 4;  // Swap High & Low Nibble
+        *ptr=value;
+        //*ptr=(uint8_t)pgm_read_byte(&bitmap[numOfBytes-i-1]);
+      }
+      break;
+    case 3:
+      // Currently not supported
+      break;
+  } // endswitch
+}
+
+/*!
+    @brief  "Draw" a RAM-resident Grayscale Bitmap Bytes 1:1 to the internal "buffer"
+    @param  bitmap - The PROGMEM defined bitmap array
+    @note   This has not an immediate effect on the display, you need to
+            call the display() function
+*/
+void Adafruit_SSD1322::draw4bppBitmap(uint8_t *bitmap) {
+  int16_t numOfBytes = WIDTH * HEIGHT / 2;
+  uint8_t value;
+  uint8_t *ptr;
+  switch (rotation) {
+    case 0:
+      for (int i=0; i<numOfBytes; i++) {
+        ptr = &buffer[i];
+        value=(uint8_t)bitmap[i];
+        *ptr=value;
+      }
+      break;
+    case 1:
+      // Currently not supported
+      break;
+    case 2:
+      for (int i=0; i<numOfBytes; i++) {
+        ptr = &buffer[i];
+        value=(uint8_t)bitmap[numOfBytes-i-1];
+        value=(0xF0 & value) >> 4 | (0x0F & value) << 4;  // Swap High & Low Nibble
+        *ptr=value;
+        //*ptr=(uint8_t)pgm_read_byte(&bitmap[numOfBytes-i-1]);
+      }
+      break;
+    case 3:
+      // Currently not supported
+      break;
+  } // endswitch
 }
