@@ -15,17 +15,15 @@ You need to run `display` after this command.
   
 Tested with the **SPI** Interface and an **ESP32** (TTGO T8 v1.7.1).  
   
-Working/Tested functions  
+Working/Tested functions:  
  * begin
- * setRotation
- * clearDisplay
- * drawBitmap
  * display
- * setContrast
  * clearDisplay
+ * setContrast
+ * setRotation
+ * drawBitmap
  * drawXBitmap
  * draw4bppBitmap
-  
   
 The Library Command `drawGrayscaleBitmap` is not usable for an SSD1322 OLED as they are for 8-Bit Displays.  
   
