@@ -388,7 +388,6 @@ void Adafruit_SSD1322::draw4bppBitmap(const uint8_t bitmap[]) {
         value=(uint8_t)pgm_read_byte(&bitmap[numOfBytes-i-1]);
         value=(0xF0 & value) >> 4 | (0x0F & value) << 4;  // Swap High & Low Nibble
         *ptr=value;
-        //*ptr=(uint8_t)pgm_read_byte(&bitmap[numOfBytes-i-1]);
       }
       break;
     case 3:
@@ -399,7 +398,7 @@ void Adafruit_SSD1322::draw4bppBitmap(const uint8_t bitmap[]) {
 
 /*!
     @brief  "Draw" a RAM-resident Grayscale Bitmap Bytes 1:1 to the internal "buffer"
-    @param  bitmap - The PROGMEM defined bitmap array
+    @param  bitmap - The RAM defined bitmap array
     @note   This has not an immediate effect on the display, you need to
             call the display() function
 */
@@ -424,7 +423,6 @@ void Adafruit_SSD1322::draw4bppBitmap(uint8_t *bitmap) {
         value=(uint8_t)bitmap[numOfBytes-i-1];
         value=(0xF0 & value) >> 4 | (0x0F & value) << 4;  // Swap High & Low Nibble
         *ptr=value;
-        //*ptr=(uint8_t)pgm_read_byte(&bitmap[numOfBytes-i-1]);
       }
       break;
     case 3:
