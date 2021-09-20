@@ -163,50 +163,47 @@ bool Adafruit_SSD1322::begin(uint8_t addr, bool reset) {
     return false;
   }
 
-  /*
-  drawBitmap((WIDTH - splash2_width) / 2, (HEIGHT - splash2_height) / 2,
-             splash2_data, splash2_width, splash2_height, 1);
-             */
+
 // Init Sequence
-      oled_command(SSD1322_CMDLOCK);            // 0xFD
-      oled_data(0x12);                          // 0x12
-      oled_command(SSD1322_DISPLAYOFF);         // 0xAE
-      oled_command(SSD1322_DCLK);               // 0xB3
-      oled_data(0x91);                          // 0x91
-      oled_command(SSD1322_SETMULTIPLEX);       // 0xCA
-      oled_data(0x3F);                          // 0x3F (1/64)
-      oled_command(SSD1322_SETDISPLAYOFFSET);   // 0xA2
-      oled_data(0x00);                          // 0x00
-      oled_command(SSD1322_SETSTARTLINE);       // 0xA1
-      oled_data(0x00);                          // 0x00
-      oled_command(SSD1322_SEGREMAP);           // 0xA0
-      oled_data(0x14);
-      oled_data(0x11);                          // 0x14);0x11
-      oled_command(SSD1322_SETGPIO);            // 0xB5
-      oled_data(0x00);                          // 0x00
-      oled_command(SSD1322_FUNCSEL);            // 0xAB
-      oled_data(0x01);                          // 0x01
-      oled_command(SSD1322_DISPLAYENHA);        // 0xB4
-      oled_data(0xA0);
-      oled_data(0xFD);                          // 0xA0);0xFD
-      oled_command(SSD1322_SETCONTRAST);        // 0xC1
-      oled_data(0x9F);                          // 0x9F
-      oled_command(SSD1322_MASTERCONTRAST);     // 0xC7
-      oled_data(0x0F);                          // 0x0F
-      oled_command(SSD1322_PHASELEN);           // 0xB1
-      oled_data(0xE2);                          // 0xE2
-      oled_command(SSD1322_DISPLAYENHB);        // 0xD1
-      oled_data(0xA2);
-      oled_data(0x20);                          // 0xA2 (0x82));0x20
-      oled_command(SSD1322_PRECHARGE);          // 0xBB
-      oled_data(0x1F);                          // 0x1F
-      oled_command(SSD1322_PRECHARGE2);         // 0xB6
-      oled_data(0x08);                          // 0x08
-      oled_command(SSD1322_SETVCOM);            // 0xBE
-      oled_data(0x0F);                          // 0x0F
-      oled_command(SSD1322_NORMALDISPLAY);      // 0xA6
-      oled_command(SSD1322_SETPARTDISP);        // 0xA9
-      oled_command(SSD1322_DISPLAYON);          // 0xAF
+  oled_command(SSD1322_CMDLOCK);            // 0xFD
+  oled_data(0x12);                          // 0x12 (Unlock OLED driver IC MCU interface)
+  oled_command(SSD1322_DISPLAYOFF);         // 0xAE
+  oled_command(SSD1322_DCLK);               // 0xB3
+  oled_data(0x91);                          // 0x91 (Oscillator frequency, divide by 2)
+  oled_command(SSD1322_SETMULTIPLEX);       // 0xCA
+  oled_data(0x3F);                          // 0x3F (1/64)
+  oled_command(SSD1322_SETDISPLAYOFFSET);   // 0xA2
+  oled_data(0x00);                          // 0x00 (No Offset)
+  oled_command(SSD1322_SETSTARTLINE);       // 0xA1
+  oled_data(0x00);                          // 0x00 (Start Line 0)
+  oled_command(SSD1322_SEGREMAP);           // 0xA0
+  oled_data(0x14);                          // 0x14 (Horizontal address increment, Disable Column Address Re-map, Enable Nibble Re-map)
+  oled_data(0x11);                          // 0x11 (Enable Dual COM mode)
+  oled_command(SSD1322_SETGPIO);            // 0xB5
+  oled_data(0x00);                          // 0x00 (Input disabled)
+  oled_command(SSD1322_FUNCSEL);            // 0xAB
+  oled_data(0x01);                          // 0x01 (Enable internal VDD regulator)
+  oled_command(SSD1322_DISPLAYENHA);        // 0xB4
+  oled_data(0xA0);                          // 0xA0 (Enable External VSL)
+  oled_data(0xFD);                          // 0xFD (Enhanced low GS display quality)
+  oled_command(SSD1322_SETCONTRAST);        // 0xC1
+  oled_data(0x05);                          // 0x05 (5)
+  oled_command(SSD1322_MASTERCONTRAST);     // 0xC7
+  oled_data(0x0F);                          // 0x0F (No change)
+  oled_command(SSD1322_PHASELEN);           // 0xB1
+  oled_data(0xE2);                          // 0xE2 (P1:5DCLKs,P2:14DCLKs)
+  oled_command(SSD1322_DISPLAYENHB);        // 0xD1
+  oled_data(0xA2);                          // 0xA2 (Normal)
+  oled_data(0x20);                          // 0x20
+  oled_command(SSD1322_PRECHARGE);          // 0xBB
+  oled_data(0x1F);                          // 0x1F (0.6xVCC)
+  oled_command(SSD1322_PRECHARGE2);         // 0xB6
+  oled_data(0x08);                          // 0x08 (8 dclks)
+  oled_command(SSD1322_SETVCOM);            // 0xBE
+  oled_data(0x07);                          // 0x07 (0.86xVCC)
+  oled_command(SSD1322_NORMALDISPLAY);      // 0xA6
+  oled_command(SSD1322_SETPARTDISP);        // 0xA9
+  oled_command(SSD1322_DISPLAYON);          // 0xAF
 
 /*
       SSD1322_GRAYTABLE,
@@ -217,8 +214,6 @@ bool Adafruit_SSD1322::begin(uint8_t addr, bool reset) {
   delay(100);                      // 100ms delay recommended
   oled_command(SSD1322_DISPLAYON); // 0xAF
   setContrast(0x2F);
-
-  // memset(buffer, 0x81, _bpp * WIDTH * ((HEIGHT + 7) / 8));
 
   return true; // Success
 }
@@ -334,6 +329,15 @@ void Adafruit_SSD1322::display(void) {
 */
 void Adafruit_SSD1322::invertDisplay(bool i) {
   oled_command(i ? SSD1322_INVERTDISPLAY : SSD1322_NORMALDISPLAY);
+}
+
+/*!
+    @brief  Switch Display off or to normal
+    @param  i
+            If true, switch Display off, else normal on
+*/
+void Adafruit_SSD1322::displayOff(bool i) {
+  oled_command(i ? SSD1322_DISPLAYALLOFF : SSD1322_NORMALDISPLAY);
 }
 
 /*!

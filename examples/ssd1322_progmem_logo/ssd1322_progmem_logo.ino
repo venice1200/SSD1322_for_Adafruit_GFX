@@ -66,7 +66,6 @@ void setup()   {
      while (1) yield();
   }
   display.clearDisplay();
-  display.display();
   display.drawBitmap(82, 0, tty2oled_logo, tty2oled_logo_width, tty2oled_logo_height, 1);
   display.display();
 

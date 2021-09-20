@@ -42,8 +42,8 @@ All text above, and the splash screen must be included in any redistribution
 #define SSD1322_SETDISPLAYOFFSET 0xA2
 #define SSD1322_NORMALDISPLAY 0xA6
 #define SSD1322_INVERTDISPLAY 0xA7
-#define SSD1322_DISPLAYALLON 0xA5
-#define SSD1322_DISPLAYALLOFF 0xA4
+#define SSD1322_DISPLAYALLON 0xA5    // All Pixel ON in GS level 15
+#define SSD1322_DISPLAYALLOFF 0xA4   // All Pixel OFF in GS level 0
 #define SSD1322_SETMULTIPLEX 0xCA
 #define SSD1322_FUNCSEL 0xAB
 #define SSD1322_DISPLAYOFF 0xAE
@@ -77,9 +77,10 @@ public:
   ~Adafruit_SSD1322(void);
 
   bool begin(uint8_t i2caddr = SSD1322_I2C_ADDRESS, bool reset = true);
+  void oled_data(uint8_t c);
   void display();
   void invertDisplay(bool i);
-  void oled_data(uint8_t c);
+  void displayOff(bool i);
   void setContrast(uint8_t level);
   void draw4bppBitmap(const uint8_t bitmap[]);
   void draw4bppBitmap(uint8_t *bitmap);
