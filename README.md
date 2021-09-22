@@ -19,6 +19,8 @@ Working/Tested functions:
  * begin
  * display
  * clearDisplay
+ * displayOff
+ * displayOn
  * setContrast
  * setRotation
  * drawBitmap
@@ -32,6 +34,7 @@ Working/Tested functions:
  * write
  * setCursor
  * invertDisplay
+ * drawPixel
  * drawLine
  * drawCircle
  * drawRect
@@ -40,6 +43,7 @@ Working/Tested functions:
  * fillTriangle
  * drawRoundRect
  * fillRoundRect
+ * invertDisplay
   
 The Library Command `drawGrayscaleBitmap` is not usable for an SSD1322 OLED as they are for 8-Bit Displays.  
   

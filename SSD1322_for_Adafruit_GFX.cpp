@@ -1,13 +1,15 @@
 /*********************************************************************
-This is a library for an Grayscale SSD1322 based OLED
+SSD1322_for_Adafruit_GFX
+
+This is a library for the Greyscale SSD1322 Controller based OLED
 License: BSD
 
-Forked in 09/20211 by venice1200 from the Adafruit SSD1327 Library 
+Forked in 09/2021 by venice1200 from the Adafruit SSD1327 Library 
 and modfied for an SSD1322 OLED with 256x64 Pixel.
 Other OLED Resolutions and Interfaces (I2C, 3SPI,6800,80xx) are currently (2021-09-14) not tested.
 
-You will find the orginal Library here https://github.com/adafruit/Adafruit_SSD1327
 
+-----------------------------------------------------------
 Original Adafruit Header for the SSD1327 OLED (BSD License)
 -----------------------------------------------------------
 
@@ -24,6 +26,8 @@ products from Adafruit!
 Original SSD1327 Library written by Limor Fried/Ladyada  for Adafruit Industries.
 BSD license, check license.txt for more information
 All text above, and the splash screen must be included in any redistribution
+
+You will find the orginal Library here https://github.com/adafruit/Adafruit_SSD1327
 *********************************************************************/
 
 
@@ -168,8 +172,8 @@ bool Adafruit_SSD1322::begin(uint8_t addr, bool reset) {
   oled_command(SSD1322_CMDLOCK);            // 0xFD
   oled_data(0x12);                          // 0x12 (Unlock OLED driver IC MCU interface)
   oled_command(SSD1322_DISPLAYOFF);         // 0xAE
-  oled_command(SSD1322_DCLK);               // 0xB3
-  oled_data(0x91);                          // 0x91 (Oscillator frequency, divide by 2)
+  oled_command(SSD1322_DISPLAYCLK);         // 0xB3 (Set Oscillator Freq. & Display Clock Divider)
+  oled_data(0x91);                          // 0x91 (Divide by 2, ~80 Frames/sec)
   oled_command(SSD1322_SETMULTIPLEX);       // 0xCA
   oled_data(0x3F);                          // 0x3F (1/64)
   oled_command(SSD1322_SETDISPLAYOFFSET);   // 0xA2
@@ -202,7 +206,7 @@ bool Adafruit_SSD1322::begin(uint8_t addr, bool reset) {
   oled_command(SSD1322_SETVCOM);            // 0xBE
   oled_data(0x07);                          // 0x07 (0.86xVCC)
   oled_command(SSD1322_NORMALDISPLAY);      // 0xA6
-  oled_command(SSD1322_SETPARTDISP);        // 0xA9
+  oled_command(SSD1322_EXITPARTDISPLAY);    // 0xA9
   oled_command(SSD1322_DISPLAYON);          // 0xAF
 
 /*
@@ -211,8 +215,8 @@ bool Adafruit_SSD1322::begin(uint8_t addr, bool reset) {
       0x07, 0x08, 0x10, 0x18, 0x20, 0x2f, 0x38, 0x3f,
 */
 
-  delay(100);                      // 100ms delay recommended
-  oled_command(SSD1322_DISPLAYON); // 0xAF
+  delay(100);                               // 100ms delay recommended
+  oled_command(SSD1322_DISPLAYON);          // 0xAF
   setContrast(0x2F);
 
   return true; // Success
@@ -275,13 +279,13 @@ void Adafruit_SSD1322::display(void) {
     maxbuff = i2c_dev->maxBufferSize() - 1;
   }
 
-  oled_command(SSD1322_SETROW);
-  oled_data(0x00);
-  oled_data(0x7F);                  
-  oled_command(SSD1322_SETCOLUMN);
-  oled_data(0x1C);
-  oled_data(0x5B);                  
-  oled_command(SSD1322_ENWRITEDATA);
+  oled_command(SSD1322_SETROW);       // 0x75
+  oled_data(0x00);                    // 00
+  oled_data(0x3F);                    // 63 Testing, old value 127 (old value 0x7F)
+  oled_command(SSD1322_SETCOLUMN);    // 0x15, 0..28..(OLED)..91..119 (x4 Segments x4 Bits)
+  oled_data(0x1C);                    // 28
+  oled_data(0x5B);                    // 91
+  oled_command(SSD1322_ENWRITEDATA);  // 0x5C
 
   for (uint8_t row = first_row; row <= last_row; row++) {
     uint8_t bytes_remaining = row_end - row_start + 1;
@@ -332,12 +336,31 @@ void Adafruit_SSD1322::invertDisplay(bool i) {
 }
 
 /*!
-    @brief  Switch Display off or to normal
-    @param  i
-            If true, switch Display off, else normal on
+    @brief  Switch Display off
 */
-void Adafruit_SSD1322::displayOff(bool i) {
-  oled_command(i ? SSD1322_DISPLAYALLOFF : SSD1322_NORMALDISPLAY);
+void Adafruit_SSD1322::displayOff(void) {
+  oled_command(SSD1322_DISPLAYOFF);
+}
+
+/*!
+    @brief  Switch Display on
+*/
+void Adafruit_SSD1322::displayOn(void) {
+  oled_command(SSD1322_DISPLAYON);
+}
+
+/*!
+    @brief  Power all Pixel full off (GS=0)
+*/
+void Adafruit_SSD1322::allPixelOff(void) {
+  oled_command(SSD1322_DISPLAYALLOFF);
+}
+
+/*!
+    @brief  Power all Pixel full on (GS=15)
+*/
+void Adafruit_SSD1322::allPixelOn(void) {
+  oled_command(SSD1322_DISPLAYALLON);
 }
 
 /*!
@@ -384,7 +407,12 @@ void Adafruit_SSD1322::draw4bppBitmap(const uint8_t bitmap[]) {
       }
       break;
     case 1:
-      // Currently not supported
+      // Currently not supported = same as 0
+      for (int i=0; i<numOfBytes; i++) {
+        ptr = &buffer[i];
+        value=(uint8_t)pgm_read_byte(&bitmap[i]);
+        *ptr=value;
+      }
       break;
     case 2:
       for (int i=0; i<numOfBytes; i++) {
@@ -395,7 +423,13 @@ void Adafruit_SSD1322::draw4bppBitmap(const uint8_t bitmap[]) {
       }
       break;
     case 3:
-      // Currently not supported
+      // Currently not supported = same as 2
+      for (int i=0; i<numOfBytes; i++) {
+        ptr = &buffer[i];
+        value=(uint8_t)pgm_read_byte(&bitmap[numOfBytes-i-1]);
+        value=(0xF0 & value) >> 4 | (0x0F & value) << 4;  // Swap High & Low Nibble
+        *ptr=value;
+      }
       break;
   } // endswitch
 }
@@ -419,7 +453,12 @@ void Adafruit_SSD1322::draw4bppBitmap(uint8_t *bitmap) {
       }
       break;
     case 1:
-      // Currently not supported
+      // Currently not supported = same as 0
+      for (int i=0; i<numOfBytes; i++) {
+        ptr = &buffer[i];
+        value=(uint8_t)bitmap[i];
+        *ptr=value;
+      }
       break;
     case 2:
       for (int i=0; i<numOfBytes; i++) {
@@ -430,7 +469,13 @@ void Adafruit_SSD1322::draw4bppBitmap(uint8_t *bitmap) {
       }
       break;
     case 3:
-      // Currently not supported
+      // Currently not supported = same as 2
+      for (int i=0; i<numOfBytes; i++) {
+        ptr = &buffer[i];
+        value=(uint8_t)bitmap[numOfBytes-i-1];
+        value=(0xF0 & value) >> 4 | (0x0F & value) << 4;  // Swap High & Low Nibble
+        *ptr=value;
+      }
       break;
   } // endswitch
 }
