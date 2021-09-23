@@ -279,10 +279,10 @@ void Adafruit_SSD1322::display(void) {
     maxbuff = i2c_dev->maxBufferSize() - 1;
   }
 
-  oled_command(SSD1322_SETROW);       // 0x75
+  oled_command(SSD1322_SETROW);       // 0x75, Oled from Row 00h(0) to 3Fh(63)
   oled_data(0x00);                    // 00
-  oled_data(0x3F);                    // 63 Testing, old value 127 (old value 0x7F)
-  oled_command(SSD1322_SETCOLUMN);    // 0x15, 0..28..(OLED)..91..119 (x4 Segments x4 Bits)
+  oled_data(0x3F);                    // 63, Testing, old value 127 (0x7F)
+  oled_command(SSD1322_SETCOLUMN);    // 0x15, Oled from Column 1Ch(28) to 5B(91)
   oled_data(0x1C);                    // 28
   oled_data(0x5B);                    // 91
   oled_command(SSD1322_ENWRITEDATA);  // 0x5C
