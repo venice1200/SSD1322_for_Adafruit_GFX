@@ -325,45 +325,6 @@ void Adafruit_SSD1322::display(void) {
 }
 
 /*!
-    @brief  Enable or disable display invert mode (white-on-black vs
-            black-on-white). Handy for testing!
-    @param  i
-            If true, switch to invert mode (black-on-white), else normal
-            mode (white-on-black).
-*/
-void Adafruit_SSD1322::invertDisplay(bool i) {
-  oled_command(i ? SSD1322_INVERTDISPLAY : SSD1322_NORMALDISPLAY);
-}
-
-/*!
-    @brief  Switch Display off
-*/
-void Adafruit_SSD1322::displayOff(void) {
-  oled_command(SSD1322_DISPLAYOFF);
-}
-
-/*!
-    @brief  Switch Display on
-*/
-void Adafruit_SSD1322::displayOn(void) {
-  oled_command(SSD1322_DISPLAYON);
-}
-
-/*!
-    @brief  Power all Pixel full off (GS=0)
-*/
-void Adafruit_SSD1322::allPixelOff(void) {
-  oled_command(SSD1322_DISPLAYALLOFF);
-}
-
-/*!
-    @brief  Power all Pixel full on (GS=15)
-*/
-void Adafruit_SSD1322::allPixelOn(void) {
-  oled_command(SSD1322_DISPLAYALLON);
-}
-
-/*!
     @brief Issue single data byte to OLED, using I2C or hard/soft SPI as needed.
     @param c The single byte data
 */
@@ -378,6 +339,45 @@ void Adafruit_SSD1322::oled_data(uint8_t c) {
 }
 
 /*!
+    @brief  Enable or disable display invert mode (white-on-black vs
+            black-on-white). Handy for testing!
+    @param  i
+            If true, switch to invert mode (black-on-white), else normal
+            mode (white-on-black).
+*/
+void Adafruit_SSD1322::invertDisplay(bool i) {
+  oled_command(i ? SSD1322_INVERTDISPLAY : SSD1322_NORMALDISPLAY);
+}
+
+/*!
+    @brief  Power Display off
+*/
+void Adafruit_SSD1322::displayOff(void) {
+  oled_command(SSD1322_DISPLAYOFF);
+}
+
+/*!
+    @brief  Power Display on
+*/
+void Adafruit_SSD1322::displayOn(void) {
+  oled_command(SSD1322_DISPLAYON);
+}
+
+/*!
+    @brief  Set all Pixel full off (GS=0)
+*/
+void Adafruit_SSD1322::allPixelOff(void) {
+  oled_command(SSD1322_DISPLAYALLOFF);
+}
+
+/*!
+    @brief  Set all Pixel full on (GS=15)
+*/
+void Adafruit_SSD1322::allPixelOn(void) {
+  oled_command(SSD1322_DISPLAYALLON);
+}
+
+/*!
     @brief  Adjust the display contrast.
     @param  level The contrast level from 0 to 0xFF
     @note   This has an immediate effect on the display, no need to call the
@@ -386,6 +386,14 @@ void Adafruit_SSD1322::oled_data(uint8_t c) {
 void Adafruit_SSD1322::setContrast(uint8_t level) {
   oled_command(SSD1322_SETCONTRAST);
   oled_data(level);
+}
+
+/*!
+    @brief  Returns the (Pointer to the) actual Font
+    @param  None
+*/
+GFXfont * Adafruit_SSD1322::getFont(void) {
+  return gfxFont;
 }
 
 /*!

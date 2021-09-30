@@ -37,10 +37,10 @@ You will find the orginal Library here https://github.com/adafruit/Adafruit_SSD1
 #define SSD1322_BLACK 0x0
 #define SSD1322_WHITE 0xF
 #define SSD1322_I2C_ADDRESS 0x3D
+
 #define SSD1322_SETCOLUMN 0x15
 #define SSD1322_ENWRITEDATA 0x5C               // Enable Write Data
 #define SSD1322_SETROW 0x75
-#define SSD1322_SETCONTRAST 0xC1
 #define SSD1322_SEGREMAP 0xA0
 #define SSD1322_SETSTARTLINE 0xA1
 #define SSD1322_SETDISPLAYOFFSET 0xA2
@@ -62,6 +62,7 @@ You will find the orginal Library here https://github.com/adafruit/Adafruit_SSD1
 #define SSD1322_GRAYTABLE 0xB8
 #define SSD1322_PRECHARGE 0xBB
 #define SSD1322_SETVCOM 0xBE
+#define SSD1322_SETCONTRAST 0xC1
 #define SSD1322_MASTERCONTRAST 0xC7
 #define SSD1322_DISPLAYENHB 0xD1
 #define SSD1322_FUNCSELB 0xD5
@@ -93,6 +94,7 @@ public:
   void setContrast(uint8_t level);
   void draw4bppBitmap(const uint8_t bitmap[]);
   void draw4bppBitmap(uint8_t *bitmap);
+  GFXfont * getFont();
 
 private:
   int8_t page_offset = 0;
