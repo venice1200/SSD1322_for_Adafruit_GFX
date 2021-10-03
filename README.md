@@ -19,10 +19,12 @@ Most Functions write their Data to the Display Buffer.
 You need to run "[oled].display()" to see the result.  
   
 Working/Tested functions:  
- * begin            Init Display
- * display          Update Display Content
- * clearDisplay     Clear Display
- * setContrast
+ * begin (*)
+ * display (*)
+ * clearDisplay
+ * displayOn (*)
+ * displayOff (*)
+ * setContrast (*)
  * setRotation
  * drawBitmap
  * drawXBitmap
@@ -34,7 +36,7 @@ Working/Tested functions:
  * println
  * write
  * setCursor
- * invertDisplay
+ * invertDisplay (*)
  * drawLine
  * drawCircle
  * drawRect
@@ -43,6 +45,10 @@ Working/Tested functions:
  * fillTriangle
  * drawRoundRect
  * fillRoundRect
+ * getFont (*)
+  
+Functions with an  (*) are part the SSD1322_for_Adafruit_GFX Library.  
+  
   
 GFX/Greyscale Library Notes
  * The Library Command `drawGrayscaleBitmap` is not usable for an SSD1322 OLED as they are for 8-Bit Displays.  
