@@ -11,24 +11,26 @@ You will find the orginal Library here https://github.com/adafruit/Adafruit_SSD1
 Beside the Hardware specific modifications I implemented the function  
 `draw4bppBitmap(const uint8_t bitmap[])`  
 to draw a 4-Bit Fullsize Grayscale Picture (256x64 Pixels, 8192 bytes) into the Display "Buffer".  
-You need to run `display` after this command.  
+You need to run `[device].display()` after this command.  
   
 Tested with the **SPI** Interface and an **ESP32** (TTGO T8 v1.7.1).  
   
 Most Functions write their Data to the Display Buffer.  
-You need to run "[oled].display()" to see the result.  
+You need to run `[device].display()` to see the result.  
   
 Working/Tested functions:  
- * begin (*)
- * display (*)
- * clearDisplay
- * displayOn (*)
- * displayOff (*)
- * setContrast (*)
+ * begin [1]           Init Display
+ * oled_data [1]       Send Data Bytes to the Display
+ * display [1]         Update Display Content = Copy Display-Buffer Data the Display
+ * clearDisplay [1]    Clear Display
+ * setContrast [1]     Set Display Contrast 0..255
+ * displayOff [1]      Switch Display off
+ * displayOn [1]       Switch Display on
+ * draw4bppBitmap [1]  Draw 4bpp Picture
+ * invertDisplay [1]   Invert Display Content
  * setRotation
  * drawBitmap
  * drawXBitmap
- * draw4bppBitmap
  * setTextSize
  * setTextColor
  * setTextWrap
@@ -36,7 +38,6 @@ Working/Tested functions:
  * println
  * write
  * setCursor
- * invertDisplay (*)
  * drawLine
  * drawCircle
  * drawRect
@@ -45,10 +46,9 @@ Working/Tested functions:
  * fillTriangle
  * drawRoundRect
  * fillRoundRect
- * getFont (*)
   
-Functions with an  (*) are part the SSD1322_for_Adafruit_GFX Library.  
-  
+Function with an [1] are SSD1322 related functions.  
+The others are from Adafruit's GFX/Greyscale Libraries.  
   
 GFX/Greyscale Library Notes
  * The Library Command `drawGrayscaleBitmap` is not usable for an SSD1322 OLED as they are for 8-Bit Displays.  
