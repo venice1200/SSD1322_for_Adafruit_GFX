@@ -50,6 +50,8 @@ Working/Tested functions:
 Function with an [1] are SSD1322 related functions.  
 The others are from Adafruit's GFX/Greyscale Libraries.  
   
+The Library was also tested with the the Library U8G2_for_Adafruit_GFX.  
+  
 GFX/Greyscale Library Notes
  * The Library Command `drawGrayscaleBitmap` is not usable for an SSD1322 OLED as they are for 8-Bit Displays.  
  * The base font has his base on top-left, the additional font on bottom-left.  
