@@ -15,19 +15,22 @@ You need to run `[device].display()` after this command.
   
 Tested with the **SPI** Interface and an **ESP32** (TTGO T8 v1.7.1).  
   
+**Limitations:**  
+`[device].setRotation(r)` supports currently only 0 (r=0) and 180 (r=2) Degrees.  
+  
 Most Functions write their Data to the Display Buffer.  
 You need to run `[device].display()` to see the result.  
   
 Working/Tested functions:  
- * begin [1]           Init Display
- * oled_data [1]       Send Data Bytes to the Display
- * display [1]         Update Display Content = Copy Display-Buffer Data the Display
- * clearDisplay [1]    Clear Display
- * setContrast [1]     Set Display Contrast 0..255
- * displayOff [1]      Switch Display off
- * displayOn [1]       Switch Display on
- * draw4bppBitmap [1]  Draw 4bpp Picture
- * invertDisplay [1]   Invert Display Content
+ * begin [1]          => Init Display
+ * oled_data [1]      => Send Data Bytes to the Display
+ * display [1]        => Update Display Content = Copy Display-Buffer Data the Display
+ * clearDisplay [1]   => Clear Display
+ * setContrast [1]    => Set Display Contrast 0..255
+ * displayOff [1]     => Switch Display off
+ * displayOn [1]      => Switch Display on
+ * draw4bppBitmap [1] => Draw 4bpp Picture
+ * invertDisplay [1]  => Invert Display Content
  * setRotation
  * drawBitmap
  * drawXBitmap
@@ -47,11 +50,8 @@ Working/Tested functions:
  * drawRoundRect
  * fillRoundRect
   
-Function with an [1] are SSD1322 related functions.  
+Functions with an [1] are SSD1322 related functions.  
 The others are from Adafruit's GFX/Greyscale Libraries.  
-  
-The Library was also tested with the Library **U8G2_for_Adafruit_GFX**.  
-https://github.com/olikraus/U8g2_for_Adafruit_GFX  
   
 GFX/Greyscale Library Notes
  * The Library Command `drawGrayscaleBitmap` is not usable for an SSD1322 OLED as they are for 8-Bit Displays.  
