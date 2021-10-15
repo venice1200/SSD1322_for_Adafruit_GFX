@@ -9,7 +9,7 @@ Other OLED Resolutions and Interfaces (I2C,3SPI,6800,80xx) are currently (2021-0
 You will find the orginal Library here https://github.com/adafruit/Adafruit_SSD1327  
   
 Beside the Hardware specific modifications I implemented the function  
-`draw4bppBitmap(const uint8_t bitmap[])`  
+`[device].draw4bppBitmap(const uint8_t bitmap[])`  
 to draw a 4-Bit Fullsize Grayscale Picture (256x64 Pixels, 8192 bytes) into the Display "Buffer".  
 You need to run `[device].display()` after this command.  
   
