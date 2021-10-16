@@ -404,41 +404,67 @@ GFXfont * Adafruit_SSD1322::getFont(void) {
 */
 void Adafruit_SSD1322::draw4bppBitmap(const uint8_t bitmap[]) {
   int16_t numOfBytes = WIDTH * HEIGHT / 2;
-  uint8_t value;
-  uint8_t *ptr;
+  uint8_t svalue1, svalue2, tvalue1, tvalue2;
+  uint8_t *ptr1,*ptr2;
+  int pheight, pwidth, i, j;
+
   switch (rotation) {
-    case 0:
-      for (int i=0; i<numOfBytes; i++) {
-        ptr = &buffer[i];
-        value=(uint8_t)pgm_read_byte(&bitmap[i]);
-        *ptr=value;
+    case 0:  // 0°
+      for (i=0; i<numOfBytes; i++) {
+        ptr1=&buffer[i];                              // Set Pointer
+        *ptr1=(uint8_t)pgm_read_byte(&bitmap[i]);     // Write Data
       }
-      break;
-    case 1:
-      // Currently not supported = same as 0
-      for (int i=0; i<numOfBytes; i++) {
-        ptr = &buffer[i];
-        value=(uint8_t)pgm_read_byte(&bitmap[i]);
-        *ptr=value;
+    break;
+    case 1:  // 90°
+      // Example: Picture Bytes 0&32 => Buffer Position 127&255 + Nibble Changes N1/N2 + N3/N4 => N3/N1 + N4+N2
+      pheight=WIDTH/2;           // calc rotated Height foor loop (256/2=128)
+      pwidth=HEIGHT/2;           // calc rotated Width for loop   (64/2=32)
+      for (j=0; j<pheight; j++) {
+        for (i=0; i<pwidth; i++) {
+          // Read Values
+          svalue1=(uint8_t)pgm_read_byte(&bitmap[i+(j*2+0)*pwidth]);
+          svalue2=(uint8_t)pgm_read_byte(&bitmap[i+(j*2+1)*pwidth]);
+          // Calc Buffer Target Addresse 
+          ptr1=&buffer[(i*2+1)*pheight-j-1];
+          ptr2=&buffer[(i*2+2)*pheight-j-1];
+          // Calc Target Values
+          tvalue1=(0xF0 & svalue1) >> 4 | (0xF0 & svalue2);
+          tvalue2=(0x0F & svalue1) | (0x0F & svalue2) << 4;
+          // And write them
+          *ptr1=tvalue1;
+          *ptr2=tvalue2;
+        }  // i
+      }  // j
+    break;
+    case 2:  // 180°
+      for (i=0; i<numOfBytes; i++) {
+        ptr1=&buffer[i];
+        svalue1=(uint8_t)pgm_read_byte(&bitmap[numOfBytes-i-1]);
+        tvalue1=(0xF0 & svalue1) >> 4 | (0x0F & svalue1) << 4;  // Swap High & Low Nibble
+        *ptr1=tvalue1;
       }
-      break;
-    case 2:
-      for (int i=0; i<numOfBytes; i++) {
-        ptr = &buffer[i];
-        value=(uint8_t)pgm_read_byte(&bitmap[numOfBytes-i-1]);
-        value=(0xF0 & value) >> 4 | (0x0F & value) << 4;  // Swap High & Low Nibble
-        *ptr=value;
-      }
-      break;
-    case 3:
-      // Currently not supported = same as 2
-      for (int i=0; i<numOfBytes; i++) {
-        ptr = &buffer[i];
-        value=(uint8_t)pgm_read_byte(&bitmap[numOfBytes-i-1]);
-        value=(0xF0 & value) >> 4 | (0x0F & value) << 4;  // Swap High & Low Nibble
-        *ptr=value;
-      }
-      break;
+    break;
+    case 3:  // 270°
+      // Example: Picture Bytes 0&32 => Buffer Position 7936&8064 + Nibble Changes N1/N2 + N3/N4 => N2/N4 + N1+N3
+      pheight=WIDTH/2;           // calc rotated Height foor loop (256/2=128)
+      pwidth=HEIGHT/2;           // calc rotated Width for loop   (64/2=32)
+      for (j=0; j<pheight; j++) {
+        for (i=0; i<pwidth; i++) {
+          // Read Values
+          svalue1=(uint8_t)pgm_read_byte(&bitmap[i+(j*2+0)*pwidth]);
+          svalue2=(uint8_t)pgm_read_byte(&bitmap[i+(j*2+1)*pwidth]);
+          // Calc Buffer Target Addresse 
+          ptr1=&buffer[(HEIGHT-1)*pheight-(i*2+1)*pheight+j];
+          ptr2=&buffer[(HEIGHT-1)*pheight-(i*2+0)*pheight+j];
+          // Calc Target Values
+          tvalue1=(0x0F & svalue1) << 4 | (0x0F & svalue2);
+          tvalue2=(0xF0 & svalue1) | (0xF0 & svalue2) >> 4;
+          // And write them
+          *ptr1=tvalue1;
+          *ptr2=tvalue2;
+        }  // i
+      }  // j
+    break;
   } // endswitch
 }
 
@@ -450,40 +476,66 @@ void Adafruit_SSD1322::draw4bppBitmap(const uint8_t bitmap[]) {
 */
 void Adafruit_SSD1322::draw4bppBitmap(uint8_t *bitmap) {
   int16_t numOfBytes = WIDTH * HEIGHT / 2;
-  uint8_t value;
-  uint8_t *ptr;
+  uint8_t svalue1, svalue2, tvalue1, tvalue2;
+  uint8_t *ptr1, *ptr2;
+  int pheight, pwidth, i, j;
+
   switch (rotation) {
-    case 0:
-      for (int i=0; i<numOfBytes; i++) {
-        ptr = &buffer[i];
-        value=(uint8_t)bitmap[i];
-        *ptr=value;
+    case 0:  // 0°
+      for (i=0; i<numOfBytes; i++) {
+        ptr1 = &buffer[i];
+        *ptr1=(uint8_t)bitmap[i];
       }
-      break;
-    case 1:
-      // Currently not supported = same as 0
-      for (int i=0; i<numOfBytes; i++) {
-        ptr = &buffer[i];
-        value=(uint8_t)bitmap[i];
-        *ptr=value;
+    break;
+    case 1:  // 90°
+      // Example: Picture Bytes 0&32 => Buffer Position 127&255 + Nibble Changes N1/N2 + N3/N4 => N3/N1 + N4+N2
+      pheight=WIDTH/2;           // calc rotated Height foor loop (256/2=128)
+      pwidth=HEIGHT/2;           // calc rotated Width for loop   (64/2=32)
+      for (j=0; j<pheight; j++) {
+        for (i=0; i<pwidth; i++) {
+          // Read Values
+          svalue1=(uint8_t)bitmap[i+(j*2+0)*pwidth];
+          svalue2=(uint8_t)bitmap[i+(j*2+1)*pwidth];
+          // Calc Buffer Target Addresse 
+          ptr1=&buffer[(i*2+1)*pheight-j-1];
+          ptr2=&buffer[(i*2+2)*pheight-j-1];
+          // Calc Target Values
+          tvalue1=(0xF0 & svalue1) >> 4 | (0xF0 & svalue2);
+          tvalue2=(0x0F & svalue1) | (0x0F & svalue2) << 4;
+          // And write them
+          *ptr1=tvalue1;
+          *ptr2=tvalue2;
+        }  // i
+      }  // j
+    break;
+    case 2:  // 180°
+      for (i=0; i<numOfBytes; i++) {
+        ptr1 = &buffer[i];
+        svalue1=(uint8_t)bitmap[numOfBytes-i-1];
+        tvalue1=(0xF0 & svalue1) >> 4 | (0x0F & svalue1) << 4;  // Swap High & Low Nibble
+        *ptr1=tvalue1;
       }
-      break;
-    case 2:
-      for (int i=0; i<numOfBytes; i++) {
-        ptr = &buffer[i];
-        value=(uint8_t)bitmap[numOfBytes-i-1];
-        value=(0xF0 & value) >> 4 | (0x0F & value) << 4;  // Swap High & Low Nibble
-        *ptr=value;
-      }
-      break;
-    case 3:
-      // Currently not supported = same as 2
-      for (int i=0; i<numOfBytes; i++) {
-        ptr = &buffer[i];
-        value=(uint8_t)bitmap[numOfBytes-i-1];
-        value=(0xF0 & value) >> 4 | (0x0F & value) << 4;  // Swap High & Low Nibble
-        *ptr=value;
-      }
-      break;
+    break;
+    case 3:  // 270°
+      // Example: Picture Bytes 0&32 => Buffer Position 7936&8064 + Nibble Changes N1/N2 + N3/N4 => N2/N4 + N1+N3
+      pheight=WIDTH/2;           // calc rotated Height foor loop (256/2=128)
+      pwidth=HEIGHT/2;           // calc rotated Width for loop   (64/2=32)
+      for (j=0; j<pheight; j++) {
+        for (i=0; i<pwidth; i++) {
+          // Read Values
+          svalue1=(uint8_t)bitmap[i+(j*2+0)*pwidth];
+          svalue2=(uint8_t)bitmap[i+(j*2+1)*pwidth];
+          // Calc Buffer Target Addresse 
+          ptr1=&buffer[(HEIGHT-1)*pheight-(i*2+1)*pheight+j];
+          ptr2=&buffer[(HEIGHT-1)*pheight-(i*2+0)*pheight+j];
+          // Calc Target Values
+          tvalue1=(0x0F & svalue1) << 4 | (0x0F & svalue2);
+          tvalue2=(0xF0 & svalue1) | (0xF0 & svalue2) >> 4;
+          // And write them
+          *ptr1=tvalue1;
+          *ptr2=tvalue2;
+        }  // i
+      }  // j
+    break;
   } // endswitch
 }
