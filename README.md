@@ -17,7 +17,7 @@ Most Functions write the Data Bytes into the Display Buffer.
 You need to run `[device].display()` to see the result.  
   
 ### Working/Tested functions:  
-|Function Name|What happens|  
+|Function Name|Function|  
 |:---|:---|  
 |begin [1]|Init Display|
 |oled_data [1]|Send Data Bytes to the Display|
