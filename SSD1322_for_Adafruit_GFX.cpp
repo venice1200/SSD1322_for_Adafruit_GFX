@@ -437,6 +437,7 @@ void Adafruit_SSD1322::draw4bppBitmap(const uint8_t bitmap[]) {
       }  // j
     break;
     case 2:  // 180°
+      // Example: N1/N2 Picture Bytes 0...8191 => N2/N1 Buffer Bytes 8191...0
       for (i=0; i<numOfBytes; i++) {
         ptr1=&buffer[i];
         svalue1=(uint8_t)pgm_read_byte(&bitmap[numOfBytes-i-1]);
@@ -509,6 +510,7 @@ void Adafruit_SSD1322::draw4bppBitmap(uint8_t *bitmap) {
       }  // j
     break;
     case 2:  // 180°
+      // Example: N1/N2 Picture Bytes 0...8191 => N2/N1 Buffer Bytes 8191...0
       for (i=0; i<numOfBytes; i++) {
         ptr1 = &buffer[i];
         svalue1=(uint8_t)bitmap[numOfBytes-i-1];
