@@ -16,34 +16,37 @@ You need to run `[device].display()` after this command to get the Picture shown
 Most Functions write the Data Bytes into the Display Buffer.  
 You need to run `[device].display()` to see the result.  
   
-Working/Tested functions:  
- * begin [1]          => Init Display
- * oled_data [1]      => Send Data Bytes to the Display
- * display [1]        => Update Display Content = Copy Display-Buffer Data the Display
- * clearDisplay [1]   => Clear Display
- * setContrast [1]    => Set Display Contrast 0..255
- * displayOff [1]     => Switch Display off
- * displayOn [1]      => Switch Display on
- * draw4bppBitmap [1] => Draw 4bpp Picture
- * invertDisplay [1]  => Invert Display Content
- * setRotation
- * drawBitmap
- * drawXBitmap
- * setTextSize
- * setTextColor
- * setTextWrap
- * print
- * println
- * write
- * setCursor
- * drawLine
- * drawCircle
- * drawRect
- * fillRect
- * drawTriangle
- * fillTriangle
- * drawRoundRect
- * fillRoundRect
+### Working/Tested functions:  
+|Function Name|What happens|  
+|:---|:---|  
+|begin [1]|Init Display|
+|oled_data [1]|Send Data Bytes to the Display|
+|display [1]|Update Display Content/Copy Display-Buffer Data the Display|
+|clearDisplay [1]|Clear Display|
+|setContrast [1]|Set Display Contrast 0..255|
+|displayOff [1]|Switch Display off|
+|displayOn [1]|Switch Display on|
+|draw4bppBitmap [1]|Draw 4bpp Picture|
+|invertDisplay [1]|Invert Display Content|
+|setRotation||
+|drawBitmap||
+|drawXBitmap||
+|setTextSize||
+|setTextColor||
+|setTextWrap||
+|print||
+|println||
+|write||
+|setCursor||
+|drawLine||
+|drawCircle||
+|drawRect||
+|fillRect||
+|drawTriangle||
+|fillTriangle||
+|drawRoundRect||
+|fillRoundRect||
+
   
 Functions with an [1] are SSD1322 related functions.  
 The others are from Adafruit's GFX/Greyscale Libraries.  
