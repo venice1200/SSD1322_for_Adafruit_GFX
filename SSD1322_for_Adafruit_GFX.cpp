@@ -216,8 +216,8 @@ bool Adafruit_SSD1322::begin(uint8_t addr, bool reset) {
 */
 
   delay(100);                               // 100ms delay recommended
-  oled_command(SSD1322_DISPLAYON);          // 0xAF
-  setContrast(0x2F);
+  // oled_command(SSD1322_DISPLAYON);          // 0xAF
+  // setContrast(0x2F);
 
   return true; // Success
 }
