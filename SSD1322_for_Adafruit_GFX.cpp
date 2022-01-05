@@ -234,7 +234,7 @@ void Adafruit_SSD1322::display(void) {
   // 32-byte transfer condition below.
   yield();
 
-  uint16_t count = WIDTH * ((HEIGHT + 7) / 8);
+  //uint16_t count = WIDTH * ((HEIGHT + 7) / 8);
   uint8_t *ptr = buffer;
   uint8_t dc_byte = 0x40;
   uint8_t rows = HEIGHT;
@@ -254,8 +254,7 @@ void Adafruit_SSD1322::display(void) {
   Serial.println(")");
   */
 
-  int16_t row_start =
-      min((int16_t)(bytes_per_row - 1), (int16_t)(window_x1 / 2));
+  int16_t row_start = min((int16_t)(bytes_per_row - 1), (int16_t)(window_x1 / 2));
   int16_t row_end = max((int16_t)0, (int16_t)(window_x2 / 2));
 
   int16_t first_row = min((int16_t)(rows - 1), (int16_t)window_y1);
