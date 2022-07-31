@@ -30,6 +30,8 @@ All text above, and the splash screen must be included in any redistribution
 You will find the orginal Library here https://github.com/adafruit/Adafruit_SSD1327
 *********************************************************************/
 
+#ifndef SSD1322_FOR_ADAFRUIT_GFX_H
+#define SSD1322_FOR_ADAFRUIT_GFX_H
 
 
 #include <Adafruit_GrayOLED.h>
@@ -100,3 +102,5 @@ private:
   int8_t page_offset = 0;
   int8_t column_offset = 0;
 };
+
+#endif
