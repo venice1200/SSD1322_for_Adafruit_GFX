@@ -6,7 +6,7 @@ License: BSD
 Forked in 09/2021 from the Adafruit SSD1327 Library (https://github.com/adafruit/Adafruit_SSD1327)  
 and modified for the SSD1322 Display Controller with 256x64 Pixel OLED Display Size.  
 Other OLED Resolutions and Interfaces (I2C,3SPI,6800,80xx) are currently (2021-09-14) untested.  
-Tested with an **ESP32** MCU and an **SPI** Interface.  
+Tested with the **ESP32 and ESP32-S3** MCU and an **SPI** Interface.  
   
 Beside the Hardware specific modifications I implemented the function  
 `[device].draw4bppBitmap(const uint8_t bitmap[])`  
