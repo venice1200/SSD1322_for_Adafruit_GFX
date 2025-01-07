@@ -57,5 +57,7 @@ GFX/Greyscale Library Notes
  * The Library Command `drawGrayscaleBitmap` is not usable for an SSD1322 OLED as they are for 8-Bit Displays.  
  * The base font has his base on top-left, the additional font on bottom-left.  
  * The additional fonts don't overwrite themself even Text Color is set to (fg-color,bg-color).  
+
+**Note** This library doesn't honor the "dirty window" (modifed pixels) as it redraws every time the full Display.  
   
 ❗ Work in Progress ❗  
